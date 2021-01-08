@@ -11,10 +11,13 @@ jobs:
       matrix:
         include:
           - os: ubuntu-20.04
+            vcpkg_cache: /home/runner/.cache/vcpkg
             vcpkg_triplet: x64-linux
           - os: macos-10.15
+            vcpkg_cache: /Users/runner/.cache/vcpkg
             vcpkg_triplet: x64-osx
           - os: windows-2019
+            vcpkg_cache: C:\Users\runneradmin\AppData\Local\vcpkg
             vcpkg_triplet: x64-windows-static
 
     name: ${{ matrix.os }}
@@ -28,6 +31,16 @@ jobs:
     - name: "[Windows] Set up MSVC Developer Command Prompt"
       if: runner.os == 'Windows'
       uses: seanmiddleditch/gha-setup-vsdevenv@v3
+
+    - name: Set up cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ matrix.vcpkg_cache }}
+        key: vcpkg-${{ runner.os }}-${{ github.head_ref }}-${{ github.run_number }}
+        restore-keys: |
+          vcpkg-${{ runner.os }}-${{ github.head_ref }}
+          vcpkg-${{ runner.os }}
+          vcpkg
 
     - name: Install vcpkg dependencies
       run: vcpkg install pthread libogg libvorbis openssl
