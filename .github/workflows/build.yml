@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            vcpkg_triplet: x64-linux
+          - os: macos-10.15
+            vcpkg_triplet: x64-osx
+          - os: windows-2019
+            vcpkg_triplet: x64-windows-static
+
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Check out git repository
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: "[Windows] Set up MSVC Developer Command Prompt"
+      if: runner.os == 'Windows'
+      uses: seanmiddleditch/gha-setup-vsdevenv@v3
+
+    - name: Install vcpkg dependencies
+      run: vcpkg install pthread libogg libvorbis openssl
+      env:
+        VCPKG_DEFAULT_TRIPLET: ${{ matrix.vcpkg_triplet }}
+
+    - name: Create build directory
+      run: mkdir build
+
+    - name: "[Linux/macOS] Configure"
+      if: runner.os == 'Linux' || runner.os == 'macOS'
+      run: cmake -DCMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake -DCMAKE_PREFIX_PATH=$VCPKG_INSTALLATION_ROOT/installed/$VCPKG_DEFAULT_TRIPLET ..
+      working-directory: build
+
+    - name: "[Windows] Configure"
+      if: runner.os == 'Windows'
+      run: cmake -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_PREFIX_PATH=C:\vcpkg\installed\${{ matrix.vcpkg_triplet }} ..
+      working-directory: build
+
+    - name: Build
+      run: cmake --build .
+      working-directory: build
+      env:
+        CMAKE_BUILD_PARALLEL_LEVEL: 2
