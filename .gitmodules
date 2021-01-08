@@ -4,4 +4,4 @@
 [submodule "src/common"]
 	path = src/common
 	url = https://github.com/Holzhaus/icecast-common.git
-	branch = cmake
+	branch = msvc
