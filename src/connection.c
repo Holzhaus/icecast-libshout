@@ -29,7 +29,7 @@
 
 #ifdef HAVE_SYS_SELECT_H
 #   include <sys/select.h>
-#else
+#elif !defined(_MSC_VER)
 #   include <sys/time.h>
 #   include <sys/types.h>
 #   include <unistd.h>
