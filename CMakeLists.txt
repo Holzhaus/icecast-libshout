@@ -4,8 +4,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 add_library(libshout
     src/codec_opus.c
-    src/codec_speex.c
-    src/codec_theora.c
     src/codec_vorbis.c
     src/connection.c
     src/format_mp3.c
@@ -49,12 +47,22 @@ if(TARGET OpenSSL::SSL)
     target_link_libraries(libshout PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 endif()
 
-# TODO: Add support for theora
-#find_package(unofficial-theora)
-#if(TARGET unofficial::theora::theora)
-#    target_compile_definitions(libshout PRIVATE HAVE_THEORA)
-#    target_link_libraries(libshout PRIVATE unofficial::theora::theora unofficial::theora::theoradec unofficial::theora::theoraenc)
-#endif()
+option(SPEEX "Speex support" OFF)
+if(SPEEX)
+    target_sources(libshout src/codec_speex.c)
+    # TODO: Add support for finding speex headers and linking
+endif()
+
+option(THEORA "Theora support" OFF)
+if(THEORA)
+    target_sources(libshout src/codec_theora.c)
+    # TODO: Add support for finding theora headers and linking
+    #find_package(unofficial-theora)
+    #if(TARGET unofficial::theora::theora)
+    #    target_compile_definitions(libshout PRIVATE HAVE_THEORA)
+    #    target_link_libraries(libshout PRIVATE unofficial::theora::theora unofficial::theora::theoradec unofficial::theora::theoraenc)
+    #endif()
+endif()
 
 # Dependencies in common directory
 add_subdirectory(src/common/httpp)
