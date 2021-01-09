@@ -72,6 +72,57 @@ target_link_libraries(libshout PRIVATE icecast-net)
 add_subdirectory(src/common/timing)
 target_link_libraries(libshout PRIVATE icecast-timing)
 
+# Header files
+include(CheckIncludeFile)
+
+check_include_file(arpa/inet.h HAVE_ARPA_INET_H)
+if(HAVE_ARPA_INET_H)
+    target_compile_definitions(libshout PRIVATE HAVE_ARPA_INET_H)
+endif()
+
+check_include_file(inttypes.h HAVE_INTTYPES_H)
+if(HAVE_INTTYPES_H)
+    target_compile_definitions(libshout PRIVATE HAVE_INTTYPES_H)
+endif()
+
+check_include_file(stdint.h HAVE_STDINT_H)
+if(HAVE_STDINT_H)
+    target_compile_definitions(libshout PRIVATE HAVE_STDINT_H)
+endif()
+
+check_include_file(strings.h HAVE_STRINGS_H)
+if(HAVE_STRINGS_H)
+    target_compile_definitions(libshout PRIVATE HAVE_STRINGS_H)
+endif()
+
+check_include_file(sys/select.h HAVE_SYS_SELECT_H)
+if(HAVE_SYS_SELECT_H)
+    target_compile_definitions(libshout PRIVATE HAVE_SYS_SELECT_H)
+endif()
+
+check_include_file(sys/socket.h HAVE_SYS_SOCKET_H)
+if(HAVE_SYS_SOCKET_H)
+    target_compile_definitions(libshout PRIVATE HAVE_SYS_SOCKET_H)
+endif()
+
+check_include_file(winsock2.h HAVE_WINSOCK2_H)
+if(HAVE_WINSOCK2_H)
+    target_compile_definitions(libshout PRIVATE HAVE_WINSOCK2_H)
+endif()
+
+# Symbols
+include(CheckSymbolExists)
+
+check_symbol_exists(strcasestr "string.h" HAVE_STRCASESTR)
+if(HAVE_STRCASESTR)
+    target_compile_definitions(libshout PRIVATE HAVE_STRCASESTR)
+endif()
+
+check_symbol_exists(X509_check_host "openssl/x509v3.h" HAVE_X509_CHECK_HOST)
+if(HAVE_X509_CHECK_HOST)
+    target_compile_definitions(libshout PRIVATE XXX_HAVE_X509_check_host)
+endif()
+
 # Installation / Packaging
 include(GNUInstallDirs)
 install(TARGETS libshout
