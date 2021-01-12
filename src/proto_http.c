@@ -28,6 +28,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#if defined(_MSC_VER)
+#define strcasecmp _stricmp
+#endif
 #ifdef HAVE_STRINGS_H
 #   include <strings.h>
 #endif

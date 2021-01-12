@@ -36,6 +36,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _MSC_VER
+#include <process.h>
+#endif
+
 #include <shout/shout.h>
 #include "shout_private.h"
 
