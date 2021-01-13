@@ -27,6 +27,9 @@ target_compile_definitions(shout
         LIBSHOUT_MINOR=${CMAKE_PROJECT_VERSION_MINOR}
         LIBSHOUT_MICRO=${CMAKE_PROJECT_VERSION_PATCH}
 )
+if(MSVC AND BUILD_SHARED_LIBS)
+  target_compile_definitions(shout PRIVATE LIBSHOUT_DLLEXPORT)
+endif()
 
 # Configure shout.h
 set(SHOUT_THREADSAFE 1)
