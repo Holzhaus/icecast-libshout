@@ -1,0 +1,6 @@
+set(SHOUT_VERSION "@CMAKE_PROJECT_VERSION@")
+
+@PACKAGE_INIT@
+
+set_and_check(Shout_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_LIBDIR@")
+check_required_components(Shout)
