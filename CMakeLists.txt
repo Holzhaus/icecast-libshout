@@ -133,10 +133,18 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 # Library files
-install(TARGETS shout
+install(TARGETS shout icecast-httpp icecast-net icecast-timing icecast-avl
+    EXPORT ShoutTargets
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+)
+
+install(
+  EXPORT ShoutTargets
+  FILE ShoutTargets.cmake
+  NAMESPACE Shout::
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Shout"
 )
 
 # Header files
@@ -148,7 +156,7 @@ install(
 # CMake config
 configure_package_config_file(ShoutConfig.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfig.cmake"
-    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/Shout/cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Shout"
     PATH_VARS CMAKE_INSTALL_LIBDIR
 )
 write_basic_package_version_file(
@@ -156,8 +164,9 @@ write_basic_package_version_file(
     VERSION "${CMAKE_PROJECT_VERSION}"
     COMPATIBILITY SameMajorVersion
 )
+
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfigVersion.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/Shout/cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Shout"
 )
