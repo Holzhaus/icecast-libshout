@@ -133,7 +133,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 # Library files
-install(TARGETS shout
+install(TARGETS shout icecast-httpp icecast-net icecast-timing icecast-avl
     EXPORT ShoutTargets
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
