@@ -148,7 +148,7 @@ install(
 # CMake config
 configure_package_config_file(ShoutConfig.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfig.cmake"
-    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/Shout/cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Shout"
     PATH_VARS CMAKE_INSTALL_LIBDIR
 )
 write_basic_package_version_file(
@@ -159,5 +159,5 @@ write_basic_package_version_file(
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfigVersion.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/Shout/cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Shout"
 )
