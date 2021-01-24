@@ -134,9 +134,17 @@ include(CMakePackageConfigHelpers)
 
 # Library files
 install(TARGETS shout
+    EXPORT ShoutTargets
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+)
+
+install(
+  EXPORT ShoutTargets
+  FILE ShoutTargets.cmake
+  NAMESPACE Shout::
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Shout"
 )
 
 # Header files
@@ -156,6 +164,7 @@ write_basic_package_version_file(
     VERSION "${CMAKE_PROJECT_VERSION}"
     COMPATIBILITY SameMajorVersion
 )
+
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/ShoutConfigVersion.cmake"
